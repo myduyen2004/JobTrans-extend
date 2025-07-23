@@ -287,9 +287,9 @@ CREATE TABLE JobGreeting (
                              confirm_note NVARCHAR(MAX),
                              status NVARCHAR(100) DEFAULT N'Chờ xét duyệt' CHECK (status IN (N'Chờ xét duyệt', N'Chờ phỏng vấn', N'Bị từ chối', N'Được nhận')),
                              FOREIGN KEY (job_seeker_id) REFERENCES Account(account_id),
-                             FOREIGN KEY (cv_id) REFERENCES CV(cv_id) ON DELETE CASCADE
+                             FOREIGN KEY (cv_id) REFERENCES CV(cv_id),
+                             FOREIGN KEY (job_id) REFERENCES Job(job_id) ON DELETE CASCADE
                                  ON UPDATE CASCADE,
-                             FOREIGN KEY (job_id) REFERENCES Job(job_id),
                              FOREIGN KEY (reject_reason_id) REFERENCES Reject_reason(reject_reason_id)
 );
 CREATE TABLE Interview (
@@ -305,8 +305,9 @@ CREATE TABLE Interview (
                            greeting_id INT,
 
     -- Thiết lập khóa ngoại tham chiếu đến bảng Job
-                           CONSTRAINT FK_Interview_Job FOREIGN KEY (job_id) REFERENCES Job(job_id) ON DELETE CASCADE ON UPDATE CASCADE,
-                           FOREIGN KEY (greeting_id) REFERENCES JobGreeting(greeting_id)
+                           CONSTRAINT FK_Interview_Job FOREIGN KEY (job_id) REFERENCES Job(job_id),
+                           FOREIGN KEY (greeting_id) REFERENCES JobGreeting(greeting_id) ON DELETE CASCADE
+                               ON UPDATE CASCADE
 );
 CREATE TABLE Conversation (
                               conversation_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -335,31 +336,58 @@ CREATE TABLE Stickers (
                           sticker_url VARCHAR(255) NOT NULL,
                           sticker_name NVARCHAR(50)
 );
+
 CREATE TABLE Shipment (
-                          shipment_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                          third_part_order_id NVARCHAR(100) NOT NULL,
-                          job_id INT NOT NULL,
+                          shipmentSequence INT IDENTITY(1,1) PRIMARY KEY,
+                          shipmentId VARCHAR(50),               -- Mã đơn hàng bên thứ ba
+                          jobId INT NOT NULL,                   -- Khóa ngoại đến bảng Job
                           sender_id INT NOT NULL,
-                          pick_name NVARCHAR(200),
-                          pick_province NVARCHAR(200),
-                          pick_ward NVARCHAR(200),
+                          pick_name NVARCHAR(100),
+                          pick_province NVARCHAR(100),
+                          pick_district NVARCHAR(100),
+                          pick_ward NVARCHAR(100),
                           pick_address NVARCHAR(200),
-                          pick_tel VARCHAR(10),
-                          name NVARCHAR(200),
-                          province NVARCHAR(200),
-                          ward NVARCHAR(200),
+                          pick_tel VARCHAR(20),
+                          name NVARCHAR(100),
+                          province NVARCHAR(100),
+                          district NVARCHAR(100),
+                          ward NVARCHAR(100),
                           address NVARCHAR(200),
-                          tel VARCHAR(10),
+                          tel VARCHAR(20),
                           product_name NVARCHAR(200),
                           product_quantity INT,
                           product_weight FLOAT,
-                          status NVARCHAR(100),
+                          status NVARCHAR(50),
                           tracking_id VARCHAR(100),
-                          CONSTRAINT FK_Shipment_Job FOREIGN KEY (job_id) REFERENCES Job(job_id),
-                          CONSTRAINT FK_Shipment_Account FOREIGN KEY (sender_id) REFERENCES Account(account_id)
+                          CONSTRAINT FK_Shipment_Account FOREIGN KEY (sender_id) REFERENCES Account(account_id),
+                          CONSTRAINT FK_Shipment_Job FOREIGN KEY (jobId) REFERENCES Job(job_id)
                               ON DELETE CASCADE
                               ON UPDATE CASCADE
 );
+CREATE TRIGGER trg_SetShipmentId
+    ON Shipment
+    AFTER INSERT
+AS
+BEGIN
+UPDATE s
+SET shipmentId = 'J' + CAST(i.shipmentSequence AS VARCHAR)
+    FROM Shipment s
+    INNER JOIN inserted i ON s.shipmentSequence = i.shipmentSequence;
+END;
+
+
+CREATE TABLE DigitalProduct(
+                               digital_product_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+                               job_id INT NOT NULL,
+                               CONSTRAINT FK_DigitalProduct_Job FOREIGN KEY (job_id) REFERENCES Job(job_id) ON DELETE CASCADE
+                                   ON UPDATE CASCADE,
+                               sender_id INT NOT NULL,
+                               CONSTRAINT FK_DigitalProduct_Account FOREIGN KEY (sender_id) REFERENCES Account(account_id),
+                               digital_product_url VARCHAR(MAX),
+							notes NVARCHAR(MAX),
+							status NVARCHAR(100)
+
+)
 CREATE TABLE Feedback (
                           feedback_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
                           job_id INT NOT NULL,                      -- Mã công việc được phản hồi
@@ -369,7 +397,8 @@ CREATE TABLE Feedback (
                           content NVARCHAR(MAX),                    -- Nội dung phản hồi (mô tả chi tiết)
                           created_at DATETIME DEFAULT GETDATE(),    -- Thời gian gửi feedback
                           type NVARCHAR(20) CHECK (type IN (N'EmployerToSeeker', N'SeekerToEmployer')), -- Loại feedback
-                          FOREIGN KEY (job_id) REFERENCES Job(job_id),
+                          FOREIGN KEY (job_id) REFERENCES Job(job_id) ON DELETE CASCADE
+                              ON UPDATE CASCADE,
                           FOREIGN KEY (from_user_id) REFERENCES Account(account_id),
                           FOREIGN KEY (to_user_id) REFERENCES Account(account_id)
 );
@@ -457,7 +486,8 @@ CREATE TABLE [Transaction] (
 
     FOREIGN KEY (receiver_id) REFERENCES Account(account_id),
 
-    CONSTRAINT FK_Transaction_Job FOREIGN KEY (job_id) REFERENCES Job(job_id)
+    CONSTRAINT FK_Transaction_Job FOREIGN KEY (job_id) REFERENCES Job(job_id) ON DELETE CASCADE
+                                                                              ON UPDATE CASCADE
     );
 
 -- Tạo bảng Notification

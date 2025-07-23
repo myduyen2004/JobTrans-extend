@@ -66,7 +66,6 @@ public class CvDAO {
             ps.setInt(1, accountId);
             ps.setString(2, cvUploadPath);
             ps.setString(3, linkCVReview); // Có thể là null nếu không cần xem trước
-
             int rows = ps.executeUpdate();
             return rows > 0;
 

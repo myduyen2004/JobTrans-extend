@@ -9,7 +9,7 @@ public class ApiConfig {
 //     Thay thế cấu hình OpenAI bằng OpenRouter
 //    public static final String OPENROUTER_API_KEY = System.getProperty("OPENROUTER_API_KEY") != null ?
 //            System.getProperty("OPENROUTER_API_KEY") : System.getenv("OPENROUTER_API_KEY");
-    public static final String OPENROUTER_API_KEY = "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";
+    public static final String OPENROUTER_API_KEY = "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";
 
 //    static {
 //        try {

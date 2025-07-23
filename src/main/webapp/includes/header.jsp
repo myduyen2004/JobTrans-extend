@@ -8,6 +8,8 @@
 <jsp:useBean id="notiDao" class="jobtrans.dal.NotificationDAO" scope="session"/>
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<meta http-equiv="Content-Security-Policy" content="img-src 'self' https://lh3.googleusercontent.com;">
+
 <!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 

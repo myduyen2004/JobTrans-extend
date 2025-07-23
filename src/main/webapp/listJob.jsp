@@ -126,7 +126,6 @@
                                             </c:otherwise>
                                         </c:choose>
                                         <img src="${pageContext.request.contextPath}/${avatarPath}" class="user-avatar-01">
-
                                         <div class="job-info-container">
                                             <div class="job-info-left">
                                                 <h5 class="card-title">${job.jobTitle}</h5>

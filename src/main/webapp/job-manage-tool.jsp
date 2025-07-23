@@ -750,19 +750,32 @@
                 </div>
                 <span class="task-card-title">Xem hợp đồng</span>
             </a>
-
-            <a href="#" class="task-card">
+            <c:set var="accountId" value="${sessionScope.sessionAccount.accountId}" />
+            <c:if test="${accountId ne job.postAccountId}">
+            <a href="job-manage-process?action=submit-product-option&jobId=${job.jobId}" class="task-card">
                 <div class="icon-container ship-icon">
                     <i class="fas fa-shopping-cart"></i>
                 </div>
-                <span class="task-card-title">Ship Offline</span>
+                <span class="task-card-title">Giao sản phẩm</span>
             </a>
+            </c:if>
+            <c:if test="${accountId eq job.postAccountId}">
+                <a href="job-manage-process?action=view-all-products&jobId=${job.jobId}" class="task-card">
+                    <div class="icon-container ship-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <span class="task-card-title">Xem sản phẩm</span>
+                </a>
+            </c:if>
+
             <a href="chat-app?action=open-conversation&jobId=${job.jobId}" class="task-card">
                 <div class="icon-container chat-icon">
                     <i class="fas fa-comment-dots"></i>
                 </div>
                 <span class="task-card-title">Chat</span>
             </a>
+
+
             <a href="job?action=viewPartnerList&jobId=${job.jobId}" class="task-card">
                 <div class="icon-container partner-icon">
                     <i class="fas fa-user-friends"></i>

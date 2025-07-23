@@ -45,7 +45,14 @@ public class JobProcessServlet extends HttpServlet {
             case "handle-completion":
                 handleCompletion(req, resp);
                 break;
-
+            case "submit-product-option":
+                submitProductOption(req, resp);
+                break;
+            case "digital-product":
+                digitalProductOption(req, resp);
+                break;
+            case "view-all-products":
+                viewAllFinalProduct(req, resp);
         }
     }
 
@@ -243,5 +250,34 @@ public class JobProcessServlet extends HttpServlet {
         }
         req.getRequestDispatcher("profile?action=wallet").forward(req, resp);
 
+    }
+
+    private void submitProductOption(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String jobId = req.getParameter("jobId");
+        JobDAO jobDAO = new JobDAO();
+        Job job = jobDAO.getJobById(Integer.parseInt(jobId));
+        req.setAttribute("job", job);
+        req.getRequestDispatcher("choose-product-option.jsp").forward(req, resp);
+    }
+
+    private void digitalProductOption(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String jobId = req.getParameter("jobId");
+        JobDAO jobDAO = new JobDAO();
+        Job job = jobDAO.getJobById(Integer.parseInt(jobId));
+        req.setAttribute("job", job);
+        req.getRequestDispatcher("digital-product.jsp").forward(req, resp);
+    }
+    private void viewAllFinalProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String jobId = req.getParameter("jobId");
+        DigitalProductDAO digitalProductDAO = new DigitalProductDAO();
+        List<DigitalProduct> digitalProductList = digitalProductDAO.getAllDigitalProductByJobId(Integer.parseInt(jobId));
+        OrderRequestDAO orderRequestDAO = new OrderRequestDAO();
+        List<OrderRequest> orderRequestList = orderRequestDAO.getAllOrderRequestByJobId(Integer.parseInt(jobId));
+        JobDAO jobDAO = new JobDAO();
+        Job job = jobDAO.getJobById(Integer.parseInt(jobId));
+        req.setAttribute("digitalProductList", digitalProductList);
+        req.setAttribute("orderRequest", orderRequestList);
+        req.setAttribute("job", job);
+        req.getRequestDispatcher("view-final-product.jsp").forward(req, resp);
     }
 }

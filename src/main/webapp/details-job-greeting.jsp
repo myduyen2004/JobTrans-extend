@@ -722,7 +722,7 @@
                         </c:if>
 
                         <!-- Nút chấp nhận ứng viên chỉ hiển thị sau khi phỏng vấn kết thúc -->
-                        <c:if test="${interview != null}">
+                        <c:if test="${interview != null && jobGreeting.status != 'Được nhận'}">
                             <a href="contract?action=view-infor-project-contract&greetingId=${jobGreeting.greetingId}" class="btn-a btn-primary" style="text-decoration: none">
                                 <i class="fas fa-check"></i> Chấp nhận ứng viên
                             </a>
