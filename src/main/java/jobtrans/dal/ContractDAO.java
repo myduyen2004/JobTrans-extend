@@ -306,8 +306,8 @@ public class ContractDAO {
         return contractList;
     }
 
-    public static void main(String[] args) {
-        ContractDAO contractDAO = new ContractDAO();
-        System.out.println(contractDAO.getContractListByJobIdWasSuccess(2));
-    }
+//    public static void main(String[] args) {
+//        ContractDAO contractDAO = new ContractDAO();
+//        System.out.println(contractDAO.getContractListByJobIdWasSuccess(2));
+//    }
 }
