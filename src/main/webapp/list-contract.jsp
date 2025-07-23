@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="vi">
@@ -44,7 +45,6 @@
                 <div class="contract-header">
                     <div style="width: 80%;">
                         <div class="contract-title">${job.jobTitle}</div>
-                        <div class="contract-id">${contract.contractId}</div>
                     </div>
                     <div>
                         <div class="contract-status">Kí kết thành công</div>
@@ -65,19 +65,23 @@
                     <div class="contract-details">
                         <div class="detail-item">
                             <div class="detail-label">Ngày bắt đầu</div>
-                            <div class="detail-value">${contract.startDate}</div>
+                            <div class="detail-value"><fmt:formatDate value="${contract.startDate}" pattern="dd/MM/yyyy"/></div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Ngày kết thúc</div>
-                            <div class="detail-value">${contract.endDate}</div>
+                            <div class="detail-value"><fmt:formatDate value="${contract.endDate}" pattern="dd/MM/yyyy"/></div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Giá trị hợp đồng</div>
-                            <div class="detail-value">${contract.jobFee} VNĐ</div>
+                            <div class="detail-value">
+                                <fmt:formatNumber value="${contract.jobFee}" type="number" groupingUsed="true" /> VNĐ
+                            </div>
+
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Ngày ký kết</div>
-                            <div class="detail-value">25/02/2025</div>
+                            <div class="detail-value"><%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()) %>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -158,5 +162,6 @@
         });
     });
 </script>
+
 </body>
 </html>

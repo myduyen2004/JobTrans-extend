@@ -107,20 +107,20 @@
                             <div class="info-value">${job.jobTitle}</div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-col">
-                                <div class="info-group">
-                                    <div class="info-label">Loại dự án</div>
-                                    <div class="info-value">${jobCategoryDAO.getCategoryById(job.categoryId)}</div>
-                                </div>
-                            </div>
-                            <div class="form-col">
-                                <div class="info-group">
-                                    <div class="info-label">Danh mục</div>
-                                    <div class="info-value">${tagDAO.getTagsByJobId(job.jobId)}</div>
-                                </div>
-                            </div>
-                        </div>
+<%--                        <div class="form-row">--%>
+<%--                            <div class="form-col">--%>
+<%--                                <div class="info-group">--%>
+<%--                                    <div class="info-label">Loại dự án</div>--%>
+<%--                                    <div class="info-value">${jobCategoryDAO.getCategoryById(job.categoryId)}</div>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                            <div class="form-col">--%>
+<%--                                <div class="info-group">--%>
+<%--                                    <div class="info-label">Danh mục</div>--%>
+<%--                                    <div class="info-value">${tagDAO.getTagsByJobId(job.jobId)}</div>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
 
                         <div class="info-group">
                             <div class="info-label">Mô tả dự án</div>

@@ -308,6 +308,6 @@ public class ContractDAO {
 
     public static void main(String[] args) {
         ContractDAO contractDAO = new ContractDAO();
-        System.out.println(contractDAO.getContractListByJobIdWasSuccess(2));
+//        System.out.println(contractDAO.getContractListByJobIdWasSuccess(2));
     }
 }

@@ -232,7 +232,8 @@ public class JobGreetingServlet extends HttpServlet {
 
             // Format giá tiền sang định dạng tiền Việt Nam
             NumberFormat vnCurrencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-            String formattedPrice = vnCurrencyFormat.format(jobGreeting.getPrice());
+            String formattedPriceA = vnCurrencyFormat.format(jobGreeting.getPrice());
+            String formattedPrice = formattedPriceA.replace("₫", "");
 
             // Xử lý hiển thị tên file đính kèm
             if (jobGreeting.getAttachment() != null && !jobGreeting.getAttachment().isEmpty()) {

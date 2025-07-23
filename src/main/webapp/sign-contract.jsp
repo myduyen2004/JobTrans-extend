@@ -143,7 +143,7 @@
                                     <div class="summary-section-title">Giá trị hợp đồng</div>
                                     <div class="summary-item">
                                         <div class="summary-label">Tổng giá trị:</div>
-                                        <div class="summary-value"><%= vndFormat.format(contract.getJobFee())%></div>
+                                        <div class="summary-value"><%= vndFormat.format(contract.getJobFee())%> VNĐ</div>
                                     </div>
                                     <div class="summary-item">
                                         <div class="summary-label">Lịch thanh toán:</div>
@@ -155,7 +155,7 @@
                                     <div class="summary-section-title">Thanh khoản của 2 bn</div>
                                     <div class="summary-item">
                                         <div class="summary-label">Số tiền bên A đặt cọc (Bằng số):</div>
-                                        <div class="summary-value"><%= vndFormat.format(contract.getJobDepositA())%></div>
+                                        <div class="summary-value"><%= vndFormat.format(contract.getJobDepositA())%> VNĐ</div>
                                     </div>
                                     <div class="summary-item">
                                         <div class="summary-label">Số tiền A đặt cọc (Bằng chữ):</div>
@@ -167,7 +167,7 @@
                                     </div>
                                     <div class="summary-item">
                                         <div class="summary-label">Số tiền bên B đặt cọc (Bằng số):</div>
-                                        <div class="summary-value"><%= vndFormat.format(contract.getJobDepositB())%></div>
+                                        <div class="summary-value"><%= vndFormat.format(contract.getJobDepositB())%> VNĐ</div>
                                     </div>
                                     <div class="summary-item">
                                         <div class="summary-label">Số tiền B đặt cọc (Bằng chữ):</div>
@@ -322,9 +322,8 @@
                                                 <img class="signature-image" alt="Chữ ký nền tảng JobTrans" src="img/contract/signature-My-Duyen.jpg">
                                             </div>
                                             <div style="text-align: center">
-                                                <div class="signature-date">Ngày ký: 01/05/2025</div>
-                                                <h6 >Họ và tên người kí</h6>
-                                                <p style="font-weight: lighter">Võ Thị Mỹ Duyên</p>
+                                                <div class="signature-date">Ngày ký: <%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()) %>
+                                                </div>
                                             </div>
                                         </c:if>
                                         <c:if test="${sessionScope.contract.aSignature == null}">
@@ -341,7 +340,8 @@
                                                 <img class="signature-image" alt="Chữ ký nền tảng JobTrans" src="img/contract/signature-My-Duyen.jpg">
                                             </div>
                                             <div style="text-align: center">
-                                                <div class="signature-date">Ngày ký: 01/05/2025</div>
+                                                <div class="signature-date">Ngày ký: <%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()) %>
+                                                    </div>
                                                 <h6 >Họ và tên người kí</h6>
                                                 <p style="font-weight: lighter">Võ Thị Mỹ Duyên</p>
                                             </div>
@@ -359,7 +359,8 @@
                                             <img class="signature-image" alt="Chữ ký nền tảng JobTrans" src="img/contract/signature-My-Duyen.jpg">
                                         </div>
                                         <div style="text-align: center">
-                                            <div class="signature-date">Ngày ký: 01/05/2025</div>
+                                            <div class="signature-date">Ngày ký: <%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()) %>
+                                            </div>
                                             <h6 >Họ và tên người kí</h6>
                                             <p style="font-weight: lighter">Võ Thị Mỹ Duyên</p>
                                         </div>

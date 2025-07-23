@@ -45,7 +45,7 @@
             <div class="job-stats">
                 <div class="stat-item">
                     <div class="stat-value">${budgetRange}</div>
-                    <div class="stat-label"> VNĐ</div>
+                    <div class="stat-label">VNĐ</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value">${job.numOfMember}</div>
