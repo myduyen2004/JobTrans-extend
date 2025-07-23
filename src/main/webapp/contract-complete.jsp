@@ -208,7 +208,7 @@
                         </div>
                         <div class="contract-summary-item">
                             <div class="summary-item-label">Ngày ký:</div>
-                            <div class="summary-item-value"><fmt:formatDate value="${now}" pattern="'Ngày' dd 'Tháng' MM 'Năm' yyyy" /></div>
+                            <div class="summary-item-value"><fmt:formatDate value="${now}" pattern="dd/MM/yyyy" /></div>
                         </div>
                         <div class="contract-summary-item">
                             <div class="summary-item-label">Tình trạng:</div>
@@ -230,11 +230,11 @@
                         </div>
                         <div class="detail-row">
                             <div class="detail-label">Ngày bắt đầu:</div>
-                            <div class="detail-value">${contract.startDate}</div>
+                            <div class="detail-value"><fmt:formatDate value="${contract.startDate}" pattern="dd/MM/yyyy" /></div>
                         </div>
                         <div class="detail-row">
                             <div class="detail-label">Ngày kết thúc dự kiến:</div>
-                            <div class="detail-value">${contract.endDate}</div>
+                            <div class="detail-value"><fmt:formatDate value="${contract.endDate}" pattern="dd/MM/yyyy" /></div>
                         </div>
                         <div class="detail-row">
                             <div class="detail-label">Tổng giá trị hợp đồng:</div>
@@ -368,7 +368,7 @@
 
                 <div class="action-buttons">
                     <c:if test="${contract.bSignature != null}">
-                        <a class="btn-a btn-success" style="text-decoration: none">
+                        <a class="btn-a btn-success" style="text-decoration: none" onclick="downloadContract()">
                             <i class="fass fa-download-a"></i> Tải xuống hợp đồng
                         </a>
                     </c:if>
@@ -873,5 +873,130 @@
     });
 </script>
 
+<script>
+    function downloadContractAsPDF() {
+        // Cấu hình cho PDF
+        const opt = {
+            margin: 1,
+            filename: 'hop-dong-jobtrans.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Lấy nội dung hợp đồng
+        const element = document.getElementById('contract-content');
+
+        // Tạo và tải xuống PDF
+        html2pdf().set(opt).from(element).save();
+    }
+</script>
+
+<style>
+    body {
+        font-family: 'Times New Roman', serif;
+        margin: 20px;
+        line-height: 1.6;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        color: #333;
+    }
+
+    .contract-header-a {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .national-title {
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .independence-title {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .contract-title-a {
+        font-weight: bold;
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .contract-number {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .party-info-a {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-left: 4px solid #667eea;
+    }
+
+    .section-title-contract {
+        font-weight: bold;
+        font-size: 16px;
+        margin: 25px 0 15px 0;
+        text-align: center;
+        color: #333;
+    }
+
+    .section-subtitle {
+        font-weight: bold;
+        margin: 15px 0 10px 0;
+    }
+
+    .signature-area-contract-a {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .signature-box-a {
+        text-align: center;
+        min-width: 200px;
+        flex: 1;
+    }
+
+    .signature-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .signature-note {
+        font-style: italic;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .signature-date-a {
+        margin-bottom: 20px;
+    }
+
+    .signature-name {
+        margin-top: 40px;
+    }
+
+    .footer-pdf {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+        font-size: 12px;
+        color: #666;
+    }
+
+    p {
+        margin: 10px 0;
+    }
+</style>
 </body>
 </html>

@@ -1,3 +1,6 @@
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -91,6 +94,13 @@
                     </div>
                 </div>
 
+                <%
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+                    NumberFormat vndFormat = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
+                %>
+
                 <div class="contract-body">
                     <form id="contract-signing-form" action="contract" method="post">
                         <input type="hidden" name="action" value="b-add-signature">
@@ -119,11 +129,16 @@
                                     </div>
                                     <div class="summary-item">
                                         <div class="summary-label">Ngày bắt đầu:</div>
-                                        <div class="summary-value">${contract.startDate}</div>
+                                        <div class="summary-value">
+                                            <fmt:formatDate value="${contract.startDate}" pattern="dd/MM/yyyy" />
+                                        </div>
+
                                     </div>
                                     <div class="summary-item">
                                         <div class="summary-label">Ngày kết thúc:</div>
-                                        <div class="summary-value">${contract.endDate}</div>
+                                        <div class="summary-value">
+                                            <fmt:formatDate value="${contract.endDate}" pattern="dd/MM/yyyy" />
+                                        </div>
                                     </div>
                                     <div class="summary-item">
                                         <div class="summary-label">Địa điểm làm việc:</div>
@@ -155,7 +170,10 @@
                                     </div>
                                     <div class="summary-item">
                                         <div class="summary-label">Ngày bên A đặt cọc:</div>
-                                        <div class="summary-value">${contract.jobDepositADate}</div>
+                                        <div class="summary-value">
+                                            <fmt:formatDate value="${contract.jobDepositADate}" pattern="dd/MM/yyyy" />
+                                        </div>
+
                                     </div>
                                     <div class="summary-item">
                                         <div class="summary-label">Số tiền bên B đặt cọc (Bằng số):</div>
@@ -167,7 +185,10 @@
                                     </div>
                                     <div class="summary-item">
                                         <div class="summary-label">Ngày bên B đặt cọc:</div>
-                                        <div class="summary-value">${contract.jobDepositBDate}</div>
+                                        <div class="summary-value">
+                                            <fmt:formatDate value="${contract.jobDepositBDate}" pattern="dd/MM/yyyy" />
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -184,10 +205,10 @@
                                         <p><strong>Đại diện:</strong> ${contract.aRepresentative}</p>
                                     </c:if>
                                     <p><strong>Số CCCD:</strong> ${contract.aIdentity}</p>
-                                    <p><strong>Cấp ngày:</strong> ${contract.aIdentityDate}</p>
+                                    <p><strong>Cấp ngày:</strong>  <fmt:formatDate value="${contract.aIdentityDate}" pattern="dd/MM/yyyy" /></p>
                                     <p><strong>Cấp tại:</strong> ${contract.aIdentityAddress}</p>
                                     <p><strong>Mã số thuế:</strong> ${contract.aTaxCode}</p>
-                                    <p><strong>Sinh ngày:</strong> ${contract.aBirthday}</p>
+                                    <p><strong>Sinh ngày:</strong>  <fmt:formatDate value="${contract.aBirthday}" pattern="dd/MM/yyyy" /></p>
                                     <p><strong>Địa chỉ:</strong> ${contract.aAddress}</p>
                                     <p><strong>Email:</strong> ${contract.aEmail}</p>
                                     <p><strong>Điện thoại:</strong> ${contract.aPhoneNumber}</p>
@@ -199,9 +220,9 @@
                                         <p><strong>Đại diện:</strong> ${contract.bRepresentative}</p>
                                     </c:if>
                                     <p><strong>Số CCCD:</strong> ${contract.bIdentity}</p>
-                                    <p><strong>Cấp ngày:</strong> ${contract.bIdentityDate}</p>
+                                    <p><strong>Cấp ngày:</strong>  <fmt:formatDate value="${contract.bIdentityDate}" pattern="dd/MM/yyyy" /></p>
                                     <p><strong>Cấp tại:</strong> ${contract.bIdentityAddress}</p>
-                                    <p><strong>Sinh ngày:</strong> ${contract.bBirthday}</p>
+                                    <p><strong>Sinh ngày:</strong>  <fmt:formatDate value="${contract.bBirthday}" pattern="dd/MM/yyyy" /></p>
                                     <p><strong>Địa chỉ:</strong> ${contract.bAddress}</p>
                                     <p><strong>Email:</strong> ${contract.bEmail}</p>
                                     <p><strong>Điện thoại:</strong> ${contract.bPhoneNumber}</p>
@@ -241,7 +262,8 @@
                                                 <img class="signature-image" alt="Chữ ký bên thuê" src="${contract.aSignature}">
                                             </div>
                                             <div style="text-align: center">
-                                                <div class="signature-date">Ngày ký: </div>
+                                                <div class="signature-date">Ngày ký: <%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()) %>
+                                                </div>
                                                 <h6>Họ và tên người kí</h6>
                                                 <p style="font-weight: lighter">${contract.aName}</p>
                                             </div>
@@ -260,7 +282,8 @@
                                                 <img class="signature-image" alt="Chữ ký freelancer" src="${contract.bSignature}">
                                             </div>
                                             <div style="text-align: center">
-                                                <div class="signature-date">Ngày ký: </div>
+                                                <div class="signature-date">Ngày ký: <%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()) %>
+                                                </div>
                                                 <h6>Họ và tên người kí</h6>
                                                 <p style="font-weight: lighter">${contract.bName}</p>
                                             </div>
@@ -278,7 +301,8 @@
                                             <img class="signature-image" alt="Chữ ký nền tảng JobTrans" src="img/contract/signature-My-Duyen.jpg">
                                         </div>
                                         <div style="text-align: center">
-                                            <div class="signature-date">Ngày ký: </div>
+                                            <div class="signature-date">Ngày ký: <%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()) %>
+                                            </div>
                                             <h6>Họ và tên người kí</h6>
                                             <p style="font-weight: lighter">Võ Thị Mỹ Duyên</p>
                                         </div>

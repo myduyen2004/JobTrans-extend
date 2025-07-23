@@ -186,7 +186,7 @@
             animation: fadeInUp 1.2s;
         }
 
-        .job-title {
+        .job-title, .intro-title, .cv-title {
             font-size: 22px;
             margin-bottom: 15px;
             color: var(--dark-blue);
@@ -195,14 +195,14 @@
         .job-params {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 60px;
             margin-bottom: 20px;
         }
 
         .job-param {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 20px;
         }
 
         .icon-circle {
@@ -547,7 +547,6 @@
         }
 
         .info-value {
-            padding: 8px 0;
             color: #333;
         }
     </style>
@@ -615,7 +614,7 @@
                         </div>
                         <div>
                             <div class="param-label">Báo giá</div>
-                            <div class="param-value">${formattedPrice} VNĐ</div>
+                            <div class="param-value">${formattedPrice}VNĐ</div>
                         </div>
                     </div>
                     <div class="job-param">
@@ -623,7 +622,7 @@
                             <i class="fas fa-calendar-alt"></i>
                         </div>
                         <div>
-                            <div class="param-label">Thời gian dự kiến</div>
+                            <div class="param-label">Thời gian hoàn thành dự kiến</div>
                             <div class="param-value">${jobGreeting.expectedDay} ngày</div>
                         </div>
                     </div>
@@ -645,9 +644,9 @@
             </div>
 
             <div class="cv-preview">
-                <h3 class="cv-title" style="margin-bottom: 20px">Xem CV</h3>
+                <h3 class="cv-title" style="margin-bottom: 20px">CV</h3>
                 <div class="cv-container">
-                    <img src="/api/placeholder/800/1000" alt="CV Preview" class="cv-placeholder">
+<%--                    <img src="" alt="CV Preview" class="cv-placeholder">--%>
                     <div class="cv-overlay">
                         <div class="btn-group">
                             <a href="cv?action=view&cvId=${jobGreeting.cvId}" class="btn-a btn-primary"
@@ -810,39 +809,40 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Lấy phần tử nút và modal
         const viewInterviewBtn = document.getElementById('viewInterviewBtn');
-        const interviewModal = document.getElementById('interviewModal');
-        const closeInterviewModal = document.getElementById('closeInterviewModal');
-        const cancelInterviewModal = document.getElementById('cancelInterviewModal');
+        const viewInterviewModal = document.getElementById('viewInterviewModal');
+        const closeViewInterviewModal = document.getElementById('closeViewInterviewModal');
+        const cancelViewInterviewModal = document.getElementById('cancelViewInterviewModal');
 
         // Hiển thị modal khi nhấn nút
         if (viewInterviewBtn) {
             viewInterviewBtn.addEventListener('click', function() {
-                interviewModal.style.display = 'flex'; // Sử dụng flex để căn giữa nội dung
+                viewInterviewModal.style.display = 'flex'; // Hiển thị modal
             });
         }
 
         // Đóng modal khi nhấn nút đóng
-        if (closeInterviewModal) {
-            closeInterviewModal.addEventListener('click', function() {
-                interviewModal.style.display = 'none';
+        if (closeViewInterviewModal) {
+            closeViewInterviewModal.addEventListener('click', function() {
+                viewInterviewModal.style.display = 'none';
             });
         }
 
         // Đóng modal khi nhấn nút hủy
-        if (cancelInterviewModal) {
-            cancelInterviewModal.addEventListener('click', function() {
-                interviewModal.style.display = 'none';
+        if (cancelViewInterviewModal) {
+            cancelViewInterviewModal.addEventListener('click', function() {
+                viewInterviewModal.style.display = 'none';
             });
         }
 
         // Đóng modal khi nhấn bên ngoài modal
         window.addEventListener('click', function(event) {
-            if (event.target === interviewModal) {
-                interviewModal.style.display = 'none';
+            if (event.target === viewInterviewModal) {
+                viewInterviewModal.style.display = 'none';
             }
         });
     });
 </script>
+
 <!-- Modal phỏng vấn -->
 <c:if test="${sessionScope.sessionAccount.accountId != jobGreeting.jobSeekerId}">
 <div class="modal" id="interviewModal">
@@ -909,66 +909,44 @@
 </div>
 </c:if>
 <c:if test="${sessionScope.sessionAccount.accountId == jobGreeting.jobSeekerId}">
-    <div class="modal" id="interviewModal">
+    <div class="modal" id="viewInterviewModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Đặt lịch phỏng vấn</h4>
-                <button class="modal-close" id="closeInterviewModal">&times;</button>
+                <h4 class="modal-title">Lịch phỏng vấn</h4>
+                <button class="modal-close" id="closeViewInterviewModal">&times;</button>
             </div>
-            <form action="interview?action=create" method="post">
-                <div class="modal-body">
-                    <input type="hidden" name="greetingId" value="${jobGreeting.greetingId}">
-                    <c:if test="${interview != null}">
-                        <input type="hidden" name="interviewId" value="${interview.interviewId}" readonly>
-                    </c:if>
-
-                    <div class="form-group">
-                        <label class="form-label">Ngày phỏng vấn</label>
-                        <input type="date" name="interviewDate" class="form-control" min="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>"
-                               value="${interview != null ? interview.interviewDate : ''}" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Thời gian</label>
-                        <input type="time" name="interviewTime" class="form-control"
-                               value="${interview != null ? interview.interviewTime : ''}" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Hình thức</label>
-                        <select name="interviewForm" class="form-control" id="interviewForm" aria-readonly="true">
-                            <option value="Offline" ${interview != null && interview.interviewForm == 'Offline' ? 'selected' : ''}>Offline</option>
-                            <option value="Online" ${interview != null && interview.interviewForm == 'Online' ? 'selected' : ''}>Online</option>
-                        </select>
-                    </div>
-
-                    <!-- Địa chỉ phỏng vấn - hiển thị nếu hình thức là Offline -->
-                    <div class="form-group" id="addressGroup">
-                        <label class="form-label">Địa chỉ phỏng vấn</label>
-                        <input type="text" name="interviewAddress" id="interviewAddress" class="form-control"
-                               value="${interview != null ? interview.interviewAddress : ''}"
-                               pattern="^(?=.*[a-zA-Z])([a-zA-Z0-9\s,./-]*)$"
-                               title="Địa chỉ không thể chỉ chứa số và không được chứa ký tự đặc biệt (ngoại trừ dấu phẩy, dấu chấm, dấu gạch ngang và dấu gạch chéo)" readonly>
-                        <div class="invalid-feedback" id="addressFeedback">
-                            Địa chỉ không hợp lệ! Địa chỉ phải chứa ít nhất một chữ cái và không chứa ký tự đặc biệt.
-                        </div>
-                    </div>
-
-                    <!-- Link phỏng vấn - hiển thị nếu hình thức là Online -->
-                    <div class="form-group" id="linkGroup" style="display:none;">
-                        <label class="form-label">Link phỏng vấn</label>
-                        <input type="text" name="interviewLink" class="form-control"
-                               value="${interview != null ? interview.interviewLink : ''}" readonly>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Ghi chú</label>
-                        <textarea name="interviewNote" class="form-control" placeholder="Nhập thông tin chi tiết về buổi phỏng vấn...">${interview != null ? interview.interviewNote : ''}</textarea>
-                    </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Ngày phỏng vấn</label>
+                    <p class="form-control-plaintext" style="text-align: center">${interview != null ? interview.interviewDate : ''}</p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn-a btn-outline" id="cancelInterviewModal">Hủy</button>
-                    <button type="submit" class="btn-a btn-primary">Xác nhận</button>
+                <div class="form-group">
+                    <label class="form-label">Thời gian</label>
+                    <p class="form-control-plaintext" style="text-align: center">${interview != null ? interview.interviewTime : ''}</p>
                 </div>
-            </form>
+                <div class="form-group">
+                    <label class="form-label">Hình thức</label>
+                    <p class="form-control-plaintext" style="text-align: center">${interview != null ? interview.interviewForm : ''}</p>
+                </div>
+
+                <div class="form-group" >
+                    <label class="form-label">Địa chỉ phỏng vấn</label>
+                    <p class="form-control-plaintext" style="text-align: center">${interview != null ? interview.interviewAddress : ''}</p>
+                </div>
+
+                <div class="form-group"  style="display:none;">
+                    <label class="form-label">Link phỏng vấn</label>
+                    <p class="form-control-plaintext" style="text-align: center">${interview != null ? interview.interviewLink : ''}</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Ghi chú</label>
+                    <p class="form-control-plaintext" style="white-space: pre-line; text-align: center">${interview != null ? interview.interviewNote : ''}</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-a btn-outline" id="cancelViewInterviewModal">Đóng</button>
+            </div>
         </div>
     </div>
 </c:if>

@@ -449,9 +449,11 @@ public class JobServlet extends HttpServlet {
 
                 // Format ngân sách hiển thị
                 NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
-                String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
-                request.setAttribute("budgetRange", formattedBudgetMin + " - " + formattedBudgetMax);
+                String formattedBudgetMinA = currencyFormat.format(job.getBudgetMin());
+                String formattedBudgetMaxA = currencyFormat.format(job.getBudgetMax());
+                String formattedBudgetMax = formattedBudgetMaxA.replace("₫", "");
+                String formattedBudgetMin = formattedBudgetMinA.replace("₫", "");
+                request.setAttribute("budgetRange", formattedBudgetMin + " -  " + formattedBudgetMax);
 
                 // Lấy thông tin thêm nếu có
                 if (job.getSecureWallet() == 1) {
@@ -591,9 +593,11 @@ public class JobServlet extends HttpServlet {
                 throw new RuntimeException(e);
             }
             NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-            String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
-            String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
-            request.setAttribute("budgetRange", formattedBudgetMin + " - " + formattedBudgetMax);
+            String formattedBudgetMinA = currencyFormat.format(job.getBudgetMin());
+            String formattedBudgetMaxA = currencyFormat.format(job.getBudgetMax());
+            String formattedBudgetMax = formattedBudgetMaxA.replace("₫", "");
+            String formattedBudgetMin = formattedBudgetMinA.replace("₫", "");
+            request.setAttribute("budgetRange", formattedBudgetMin + " -  " + formattedBudgetMax);
             request.setAttribute("test", test);
             request.setAttribute("postAcc", postAcc);
             request.setAttribute("tagList", tagList);

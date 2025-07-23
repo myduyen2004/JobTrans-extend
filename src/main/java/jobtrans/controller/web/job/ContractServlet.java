@@ -5,11 +5,15 @@ import jobtrans.model.*;
 import jobtrans.utils.DBConnection;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.text.Document;
+import java.awt.*;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
@@ -23,6 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.List;
 
 @WebServlet(name="ContractServlet", urlPatterns={"/contract"})
 public class ContractServlet extends HttpServlet {
@@ -680,22 +685,22 @@ public class ContractServlet extends HttpServlet {
     }
 
     private void listContractOfJob(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    HttpSession session = request.getSession();
-    try {
-        Account account = (Account) session.getAttribute("sessionAccount");
-        if (account == null) {
-            response.sendRedirect("login.jsp");
-            return;
+        HttpSession session = request.getSession();
+        try {
+            Account account = (Account) session.getAttribute("sessionAccount");
+            if (account == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            int jobId = Integer.parseInt(request.getParameter("jobId"));
+            List<Contract> contractList = contractDAO.getContractListByJobIdWasSuccess(jobId);
+            Job job = jobDAO.getJobById(jobId);
+            System.out.println(contractList);
+            request.setAttribute("job", job);
+            request.setAttribute("contractList", contractList);
+            request.getRequestDispatcher("list-contract.jsp").forward(request, response);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        int jobId = Integer.parseInt(request.getParameter("jobId"));
-        List<Contract> contractList = contractDAO.getContractListByJobIdWasSuccess(jobId);
-        Job job = jobDAO.getJobById(jobId);
-        System.out.println(contractList);
-        request.setAttribute("job", job);
-        request.setAttribute("contractList", contractList);
-        request.getRequestDispatcher("list-contract.jsp").forward(request, response);
-    } catch (Exception e) {
-        throw new RuntimeException(e);
-    }
     }
 }
