@@ -837,7 +837,7 @@ public class JobServlet extends HttpServlet {
                     jobDAO.addJobTag(jobId, tagId);
                 }
             }
-
+            jobDAO.updateJobByJobId(job);
             Job jobNew = jobDAO.getJobById(jobId);
             List<Tag> tagList;
             try {
